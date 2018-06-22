@@ -1,4 +1,5 @@
 > 示例项目地址： https://github.com/14251104246/flyway-demo
+
 > [flyway工作原理]（https://flywaydb.org/getstarted/how）
 ## 简单使用（集成 spring boot 直接看下面）
 #### 配置
@@ -49,6 +50,7 @@ public class TestFlyway {
 # 数据库版本控制
 flyway:
   enabled: true
+  # 若连接的数据库非空库，是否初始化
   baseline-on-migrate: true
   # 是否开启校验
   validate-on-migrate: false
@@ -74,4 +76,8 @@ flyway:
 ```
 - 数据库成功插入数据并创建新的表
 > ![image.png](https://upload-images.jianshu.io/upload_images/7176877-5f3d298453b0206c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-    
+
+#### 使用注意
+- 若开启校验，flyway在启动校验失败时会清空数据库中的表和删除表结构
+- 若不开启`baseline-on-migrate`，在连接的数据库为非空库时，程序会报错
+- 若执行sql脚本失败，flyway会记录失败信息到`flyway_schema_history`表，并且下次重新启动flyway前必须先删掉失败信息，否则会报错
